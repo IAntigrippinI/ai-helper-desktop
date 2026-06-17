@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QHBoxLayout,
-    QStackedWidget,
+    QStackedWidget, QLineEdit,
 )
 
 from qfluentwidgets import (
@@ -25,8 +25,11 @@ from app.config.windows import (
 
 from app.config.common import APP_VERSION
 from app.services.notification import NotificationService
+from app.ui.pages.ai_chat import AIChatLayout
 from app.ui.styles.overlay_style import OVERLAY_STYLE
+from app.ui.widgets.chat import ChatPanel
 from app.ui.widgets.section_button import create_section_button
+from app.ui.widgets.settings import SettingsWidget
 
 
 class OverlayWindow(QWidget):
@@ -187,26 +190,39 @@ class OverlayWindow(QWidget):
 
         return page
 
+    # def _create_ai_page(self) -> QWidget:
+        # page = QWidget()
+        # page.setObjectName("page")
+        #
+        # # layout = QVBoxLayout(page)
+        # layout = AIChatLayout(page)
+        # layout.setContentsMargins(16, 14, 16, 14)
+        # layout.setSpacing(12)
+        #
+        # title = BodyLabel("Здесь потом будет раздел для работы с ИИ.")
+        # button = PrimaryPushButton("Тест ИИ-раздела")
+        # button.clicked.connect(
+        #     lambda: self.notification_service.show_info(
+        #         "ИИ-раздел",
+        #         "Пока это просто тестовая кнопка.",
+        #     )
+        # )
+        # layout.addWidget(title)
+        # layout.addWidget(button)
+        # layout.addStretch()
+        #
+        # return page
+
     def _create_ai_page(self) -> QWidget:
         page = QWidget()
         page.setObjectName("page")
 
         layout = QVBoxLayout(page)
-        layout.setContentsMargins(16, 14, 16, 14)
-        layout.setSpacing(12)
+        layout.setContentsMargins(12, 12, 12, 12)
 
-        title = BodyLabel("Здесь потом будет раздел для работы с ИИ.")
-        button = PrimaryPushButton("Тест ИИ-раздела")
-        button.clicked.connect(
-            lambda: self.notification_service.show_info(
-                "ИИ-раздел",
-                "Пока это просто тестовая кнопка.",
-            )
-        )
+        chat_panel = ChatPanel()
 
-        layout.addWidget(title)
-        layout.addWidget(button)
-        layout.addStretch()
+        layout.addWidget(chat_panel)
 
         return page
 
@@ -218,20 +234,24 @@ class OverlayWindow(QWidget):
         layout.setContentsMargins(16, 14, 16, 14)
         layout.setSpacing(12)
 
-        title = BodyLabel("Здесь потом будут настройки приложения.")
-        button = PrimaryPushButton("Показать warning")
-        button.clicked.connect(
-            lambda: self.notification_service.show_warning(
-                "Настройки",
-                "Это пример предупреждения.",
-            )
-        )
 
-        layout.addWidget(title)
-        layout.addWidget(button)
-        layout.addStretch()
+        settings = SettingsWidget()
 
+        layout.addWidget(settings)
         return page
+
+        # title = BodyLabel("Здесь потом будут настройки приложения.")
+        # button = PrimaryPushButton("Показать warning")
+        # button.clicked.connect(
+        #     lambda: self.notification_service.show_warning(
+        #         "Настройки",
+        #         "Это пример предупреждения.",
+        #     )
+        # )
+        #
+        # layout.addWidget(title)
+        # layout.addWidget(button)
+        # layout.addStretch()
 
     def _show_test_notification(self) -> None:
         """
