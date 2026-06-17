@@ -1,24 +1,23 @@
+import traceback
+
 import loguru
 
 from langchain_openai import ChatOpenAI
 
-from app.config.ai import AI_API_KEY, AI_PROVIDER_URL
+from app.config.ai import ai_config
 
 class OpenAIConnector:
 
     def __init__(self):
-        self.chat = ChatOpenAI(
-            api_key=AI_API_KEY,
-            base_url=AI_PROVIDER_URL
-        )
+        self.chat = None
 
 
     def _get_chat(self):
         if self.chat is None:
             try:
                 self.chat = ChatOpenAI(
-                    api_key=AI_API_KEY,
-                    base_url=AI_PROVIDER_URL
+                    api_key=ai_config.AI_API_KEY,
+                    base_url=ai_config.AI_PROVIDER_URL
                 )
             except Exception as e:
                 loguru.logger.debug(traceback.format_exc())
@@ -32,3 +31,7 @@ class OpenAIConnector:
         response = chat.invoke(prompt)
         loguru.logger.debug(response)
         return response
+
+
+
+openai_connector = OpenAIConnector()
