@@ -20,9 +20,10 @@ from app.config.windows import (
     WINDOW_HEIGHT,
     WINDOW_TITLE,
     TITLE_TEXT,
-    DESCRIPTION_TEXT,
-    APP_VERSION
+    DESCRIPTION_TEXT
 )
+
+from app.config.common import APP_VERSION
 from app.services.notification import NotificationService
 from app.ui.styles.overlay_style import OVERLAY_STYLE
 from app.ui.widgets.section_button import create_section_button
